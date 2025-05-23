@@ -1,0 +1,12 @@
+<mat-card class="item">
+  Show the values from the DB: <br />
+  @for (task of tasks();track task.id) {
+    <p>{{ task.name }}</p>
+  }
+</mat-card>
+
+<button (click)="addTask({name: 'New Task', rating: 1111})">Add Task</button>
+<!-- <button (click)="deleteTask({id: 'peFoulpshlTSgaO0gvyS'})">Delete Task</button> -->
+
+
+{{ tasks() | json }}
