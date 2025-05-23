@@ -1,4 +1,4 @@
-import { computed, inject, Injectable,  OnInit,  signal } from '@angular/core';
+import { computed, inject, Injectable,  signal } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -10,12 +10,11 @@ import { Task } from '../task/task.model';
 import { CollectionReference, getDocs } from 'firebase/firestore';
 
 const initialState = {
-  currentId: 1 as number,
   tasks: [] as Task[],
 };
 
 @Injectable({ providedIn: 'root' })
-export class TasksFirebaseService  {
+export class TasksFirebaseService {
   state = signal(initialState);
   firestore = inject(Firestore);
 
@@ -25,15 +24,15 @@ export class TasksFirebaseService  {
   ) as CollectionReference<Task>;
 
   tasks = computed(() => this.state().tasks);
-  currentNumber = computed(() => this.state().currentId);
 
   async getTasksCollection(): Promise<void> {
     const data = await getDocs(this.tasksCollection);
 
     const tasks = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    console.log('tasks', tasks);
-    this.state().tasks = [...tasks];
-    console.log('state', this.state().tasks);
+    this.state.set({
+      ...this.state(),
+      tasks: [...tasks],
+    });
   }
 
   async addTask(task: Partial<Task>) {
