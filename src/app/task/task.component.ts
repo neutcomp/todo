@@ -26,4 +26,8 @@ export class TaskComponent implements OnInit {
   async addTask(task: Partial<Task>) {
     await this.taskFirebaseService.addTask(task);
   }
+
+  async deleteTask(id: string) {
+    await this.taskFirebaseService.deleteTask(id);
+  }
 }
